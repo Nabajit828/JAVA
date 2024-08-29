@@ -11,55 +11,52 @@ public class PersonalTaskManager {
             int choice = getUserChoice();
 
             switch (choice) {
-                case 1:
-                    addTask();
-                    break;
-                case 2:
-                    addNote();
-                    break;
-                case 3:
-                    addReminder();
-                    break;
-                case 4:
-                    taskManager.viewTasks();
-                    break;
-                case 5:
-                    taskManager.viewNotes();
-                    break;
-                case 6:
-                    taskManager.viewReminders();
-                    break;
-                case 7:
-                    deleteTask();
-                    break;
-                case 8:
-                    deleteNote();
-                    break;
-                case 9:
-                    deleteReminder();
-                    break;
-                case 0:
-                    exitProgram();
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case 1:  addTask();       break;
+                case 2:  addNote();       break;
+                case 3:  addReminder();   break;
+                case 4:  taskManager.viewTasks();       break;
+                case 5:  taskManager.viewNotes();       break;
+                case 6:  taskManager.viewReminders();   break;
+                case 7:  deleteTask();    break;
+                case 8:  deleteNote();    break;
+                case 9:  deleteReminder();break;
+                case 10: editTask();      break;
+                case 11: editNote();      break;
+                case 12: editReminder();  break;
+                case 0:  exitProgram();   break;
+                default: System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 
     private static void displayMenu() {
-        System.out.println("Personal Task Manager");
-        System.out.println("1. Add Task");
-        System.out.println("2. Add Note");
-        System.out.println("3. Add Reminder");
-        System.out.println("4. View Tasks");
-        System.out.println("5. View Notes");
-        System.out.println("6. View Reminders");
-        System.out.println("7. Delete Task");
-        System.out.println("8. Delete Note");
-        System.out.println("9. Delete Reminder");
-        System.out.println("0. Exit");
-        System.out.print("Enter your choice: ");
+        System.out.println("\n=======================");
+        System.out.println("  WELCOME TO YOUR TASK MANAGER");
+        System.out.println("=======================");
+        System.out.println("  Choose an action below:");
+        System.out.println("-----------------------");
+
+        System.out.println("  [1] ➜ Add a New Task");
+        System.out.println("  [2] ➜ Add a New Note");
+        System.out.println("  [3] ➜ Add a New Reminder");
+
+        System.out.println("\n-- View Existing --");
+        System.out.println("  [4] ➜ View All Tasks");
+        System.out.println("  [5] ➜ View All Notes");
+        System.out.println("  [6] ➜ View All Reminders");
+
+        System.out.println("\n-- Modify Existing --");
+        System.out.println("  [7] ➜ Delete a Task");
+        System.out.println("  [8] ➜ Delete a Note");
+        System.out.println("  [9] ➜ Delete a Reminder");
+
+        System.out.println("\n-- Update Entries --");
+        System.out.println("  [10] ➜ Edit a Task");
+        System.out.println("  [11] ➜ Edit a Note");
+        System.out.println("  [12] ➜ Edit a Reminder");
+
+        System.out.println("\n[0] ➜ Exit the Program");
+        System.out.print("\nYour choice: ");
     }
 
     private static int getUserChoice() {
@@ -144,6 +141,88 @@ public class PersonalTaskManager {
         }
     }
 
+    private static void editTask() {
+        System.out.print("Enter the task name to edit: ");
+        String taskToEdit = scanner.nextLine();
+        Task task = taskManager.findTask(taskToEdit);
+        if (task != null) {
+            System.out.print("New Task Name (leave empty to keep current): ");
+            String newTaskName = scanner.nextLine();
+            if (!newTaskName.isEmpty()) {
+                task.setTaskName(newTaskName);
+            }
+            System.out.print("New Due Date (leave empty to keep current): ");
+            String newDueDate = scanner.nextLine();
+            if (!newDueDate.isEmpty()) {
+                task.setDueDate(newDueDate);
+            }
+            System.out.print("New Priority (1-5, leave empty to keep current): ");
+            String newPriority = scanner.nextLine();
+            if (!newPriority.isEmpty()) {
+                try {
+                    int priority = Integer.parseInt(newPriority);
+                    if (priority >= 1 && priority <= 5) {
+                        task.setPriority(priority);
+                    } else {
+                        System.out.println("Invalid priority. Keeping current priority.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Keeping current priority.");
+                }
+            }
+            System.out.println("Task updated.");
+        } else {
+            System.out.println("Task not found.");
+        }
+    }
+
+    private static void editNote() {
+        System.out.print("Enter the note title to edit: ");
+        String noteToEdit = scanner.nextLine();
+        Note note = taskManager.findNote(noteToEdit);
+        if (note != null) {
+            System.out.print("New Note Title (leave empty to keep current): ");
+            String newNoteTitle = scanner.nextLine();
+            if (!newNoteTitle.isEmpty()) {
+                note.setTitle(newNoteTitle);
+            }
+            System.out.print("New Note Content (leave empty to keep current): ");
+            String newNoteContent = scanner.nextLine();
+            if (!newNoteContent.isEmpty()) {
+                note.setContent(newNoteContent);
+            }
+            System.out.println("Note updated.");
+        } else {
+            System.out.println("Note not found.");
+        }
+    }
+
+    private static void editReminder() {
+        System.out.print("Enter the reminder text to edit: ");
+        String reminderToEdit = scanner.nextLine();
+        Reminder reminder = taskManager.findReminder(reminderToEdit);
+        if (reminder != null) {
+            System.out.print("New Reminder Text (leave empty to keep current): ");
+            String newReminderText = scanner.nextLine();
+            if (!newReminderText.isEmpty()) {
+                reminder.setReminderText(newReminderText);
+            }
+            System.out.print("New Reminder Date (leave empty to keep current): ");
+            String newReminderDate = scanner.nextLine();
+            if (!newReminderDate.isEmpty()) {
+                reminder.setReminderDate(newReminderDate);
+            }
+            System.out.print("New Reminder Time (leave empty to keep current): ");
+            String newReminderTime = scanner.nextLine();
+            if (!newReminderTime.isEmpty()) {
+                reminder.setReminderTime(newReminderTime);
+            }
+            System.out.println("Reminder updated.");
+        } else {
+            System.out.println("Reminder not found.");
+        }
+    }
+
     private static void exitProgram() {
         System.out.println("Exiting Personal Task Manager. Goodbye!");
         System.exit(0);
@@ -165,12 +244,24 @@ class Task {
         return taskName;
     }
 
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
     public String getDueDate() {
         return dueDate;
     }
 
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public int getPriority() {
         return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }
 
@@ -187,8 +278,16 @@ class Note {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
 
@@ -207,62 +306,98 @@ class Reminder {
         return reminderText;
     }
 
+    public void setReminderText(String reminderText) {
+        this.reminderText = reminderText;
+    }
+
     public String getReminderDate() {
         return reminderDate;
+    }
+
+    public void setReminderDate(String reminderDate) {
+        this.reminderDate = reminderDate;
     }
 
     public String getReminderTime() {
         return reminderTime;
     }
+
+    public void setReminderTime(String reminderTime) {
+        this.reminderTime = reminderTime;
+    }
 }
 
 class TaskManager {
-    private ArrayList<Task> tasks = new ArrayList<>();
-    private ArrayList<Note> notes = new ArrayList<>();
-    private ArrayList<Reminder> reminders = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Note> notes = new ArrayList<>();
+    private final ArrayList<Reminder> reminders = new ArrayList<>();
 
     public void addTask(Task task) {
         tasks.add(task);
+        System.out.println("Task added.");
     }
 
     public void addNote(Note note) {
         notes.add(note);
+        System.out.println("Note added.");
     }
 
     public void addReminder(Reminder reminder) {
         reminders.add(reminder);
+        System.out.println("Reminder added.");
     }
 
     public void viewTasks() {
-        System.out.println("Tasks:");
-        for (Task task : tasks) {
-            System.out.println("Task: " + task.getTaskName() + " (Due Date: " + task.getDueDate() + ")");
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks to display.");
+        } else {
+            for (Task task : tasks) {
+                System.out.println("Task: " + task.getTaskName() + " | Due: " + task.getDueDate() + " | Priority: " + task.getPriority());
+            }
         }
     }
 
     public void viewNotes() {
-        System.out.println("Notes:");
-        for (Note note : notes) {
-            System.out.println("Note: " + note.getTitle() + " (Content: " + note.getContent() + ")");
+        if (notes.isEmpty()) {
+            System.out.println("No notes to display.");
+        } else {
+            for (Note note : notes) {
+                System.out.println("Note: " + note.getTitle() + " | Content: " + note.getContent());
+            }
         }
     }
 
     public void viewReminders() {
-        System.out.println("Reminders:");
-        for (Reminder reminder : reminders) {
-            System.out.println("Reminder: " + reminder.getReminderText() + " (Date: " + reminder.getReminderDate() + ", Time: " + reminder.getReminderTime() + ")");
+        if (reminders.isEmpty()) {
+            System.out.println("No reminders to display.");
+        } else {
+            for (Reminder reminder : reminders) {
+                System.out.println("Reminder: " + reminder.getReminderText() + " | Date: " + reminder.getReminderDate() + " | Time: " + reminder.getReminderTime());
+            }
         }
     }
 
     public boolean deleteTask(String taskName) {
-        return tasks.removeIf(task -> task.getTaskName().equals(taskName));
+        return tasks.removeIf(task -> task.getTaskName().equalsIgnoreCase(taskName));
     }
 
     public boolean deleteNote(String noteTitle) {
-        return notes.removeIf(note -> note.getTitle().equals(noteTitle));
+        return notes.removeIf(note -> note.getTitle().equalsIgnoreCase(noteTitle));
     }
 
     public boolean deleteReminder(String reminderText) {
-        return reminders.removeIf(reminder -> reminder.getReminderText().equals(reminderText));
+        return reminders.removeIf(reminder -> reminder.getReminderText().equalsIgnoreCase(reminderText));
+    }
+
+    public Task findTask(String taskName) {
+        return tasks.stream().filter(task -> task.getTaskName().equalsIgnoreCase(taskName)).findFirst().orElse(null);
+    }
+
+    public Note findNote(String noteTitle) {
+        return notes.stream().filter(note -> note.getTitle().equalsIgnoreCase(noteTitle)).findFirst().orElse(null);
+    }
+
+    public Reminder findReminder(String reminderText) {
+        return reminders.stream().filter(reminder -> reminder.getReminderText().equalsIgnoreCase(reminderText)).findFirst().orElse(null);
     }
 }
